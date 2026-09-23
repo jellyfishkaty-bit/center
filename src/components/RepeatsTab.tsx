@@ -46,7 +46,7 @@ export default function RepeatsTab({ project }: { project: Project }) {
           <div key={repeat.id} className="card p-4">
             <div className="flex items-start justify-between mb-2">
               <div>
-                <p className="font-semibold text-ink-900">{repeat.name}</p>
+                <p className="section-title text-lg">{repeat.name}</p>
                 <p className="text-xs text-ink-500">
                   {repeat.length} рядов в повторе · старт с ряда {repeat.startRow}
                 </p>
@@ -97,7 +97,7 @@ export default function RepeatsTab({ project }: { project: Project }) {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
           <div className="card p-5 w-full max-w-sm">
             <div className="flex items-center justify-between mb-3">
-              <p className="font-semibold text-ink-900">Новый раппорт</p>
+              <p className="section-title text-lg">Новый раппорт</p>
               <button onClick={() => setShowForm(false)}>
                 <X size={20} className="text-ink-500" />
               </button>

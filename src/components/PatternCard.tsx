@@ -30,7 +30,7 @@ export default function PatternCard({
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <button
-              className="font-semibold text-ink-900 text-left"
+              className="section-title text-lg text-left"
               onClick={() => setExpanded((v) => !v)}
             >
               {pattern.name}

@@ -41,7 +41,7 @@ export default function ProjectCard({ project }: { project: Project }) {
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center justify-between gap-2">
-          <h3 className="font-semibold text-ink-900 truncate">{project.name}</h3>
+          <h3 className="text-base truncate">{project.name}</h3>
           <span
             className={`text-[11px] font-semibold px-2 py-0.5 rounded-full shrink-0 ${statusStyle[project.status]}`}
           >

@@ -5,6 +5,7 @@ import { Plus, Archive } from "lucide-react";
 import { db } from "../db/db";
 import type { Project, ProjectStatus } from "../db/types";
 import ProjectCard from "../components/ProjectCard";
+import YarnIllustration from "../components/decor/YarnIllustration";
 
 type FilterKey = "active" | ProjectStatus | "archived";
 
@@ -35,7 +36,7 @@ export default function ProjectListPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-ink-900">Мои проекты</h1>
+        <h1 className="text-3xl">Мои проекты</h1>
         <Link
           to="/projects/new"
           className="btn-primary w-11 h-11 flex items-center justify-center tap-target"
@@ -67,11 +68,15 @@ export default function ProjectListPage() {
       )}
 
       {filtered && filtered.length === 0 && (
-        <div className="text-center mt-16 px-6">
-          <p className="text-ink-500 mb-4">
+        <div className="text-center mt-10 px-6">
+          <YarnIllustration className="w-32 h-32 mx-auto mb-2 opacity-90" />
+          <p className="accent-note text-xl mb-1">
+            {filter === "archived" ? "В архиве пока пусто" : "Пока пусто, но это временно"}
+          </p>
+          <p className="text-ink-500 mb-4 text-sm">
             {filter === "archived"
-              ? "В архиве пока пусто."
-              : "Пока нет проектов в этой категории."}
+              ? "Архивированные проекты появятся здесь."
+              : "Начните первый проект — и он ляжет сюда аккуратной стопочкой."}
           </p>
           {filter !== "archived" && (
             <Link to="/projects/new" className="btn-primary inline-block px-5 py-2.5">

@@ -64,12 +64,12 @@ export default function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-bold text-ink-900">Настройки</h1>
+      <h1 className="text-3xl">Настройки</h1>
 
       <section className="card p-4">
         <div className="flex items-center gap-2 mb-2">
           <Bell size={18} className="text-terracotta-500" />
-          <p className="font-semibold text-ink-900">Напоминания</p>
+          <p className="section-title text-lg">Напоминания</p>
         </div>
         <p className="text-xs text-ink-500 mb-3">
           Локальные уведомления работают, пока приложение открыто (в фоновой вкладке или
@@ -115,7 +115,7 @@ export default function SettingsPage() {
       </section>
 
       <section className="card p-4">
-        <p className="font-semibold text-ink-900 mb-3">Резервное копирование</p>
+        <p className="section-title text-lg mb-3">Резервное копирование</p>
         <button
           onClick={handleExport}
           className="btn-secondary w-full py-3 flex items-center justify-center gap-2 mb-2"

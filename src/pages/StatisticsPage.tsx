@@ -67,7 +67,7 @@ export default function StatisticsPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-bold text-ink-900">Статистика</h1>
+      <h1 className="text-3xl">Статистика</h1>
 
       <div className="grid grid-cols-3 gap-2">
         <div className="card p-3 text-center">
@@ -86,7 +86,7 @@ export default function StatisticsPage() {
 
       <section className="card p-4">
         <div className="flex items-center justify-between mb-3">
-          <p className="font-semibold text-ink-900">Рядов в день (14 дней)</p>
+          <p className="section-title text-lg">Рядов в день (14 дней)</p>
           <select
             className="text-sm border border-cream-300 rounded-lg px-2 py-1 bg-white"
             value={selectedProjectId}
@@ -136,7 +136,7 @@ export default function StatisticsPage() {
       </section>
 
       <section className="card p-4">
-        <p className="font-semibold text-ink-900 mb-3">Календарь активности</p>
+        <p className="section-title text-lg mb-3">Календарь активности</p>
         <ActivityHeatmap counts={heatmapCounts} />
       </section>
     </div>

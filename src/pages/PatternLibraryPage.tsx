@@ -37,7 +37,7 @@ export default function PatternLibraryPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold text-ink-900">Избранные узоры</h1>
+        <h1 className="text-3xl">Избранные узоры</h1>
         <button
           onClick={() => {
             setEditing(null);

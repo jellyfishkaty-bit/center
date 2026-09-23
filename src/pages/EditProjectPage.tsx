@@ -25,7 +25,7 @@ export default function EditProjectPage() {
       >
         <ChevronLeft size={20} /> Назад
       </button>
-      <h1 className="text-2xl font-bold text-ink-900 mb-5">Редактировать проект</h1>
+      <h1 className="text-3xl mb-5">Редактировать проект</h1>
       <ProjectForm initial={project} submitLabel="Сохранить" onSubmit={handleSubmit} />
     </div>
   );

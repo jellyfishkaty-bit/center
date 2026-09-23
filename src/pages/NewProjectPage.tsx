@@ -29,7 +29,7 @@ export default function NewProjectPage() {
       >
         <ChevronLeft size={20} /> Назад
       </button>
-      <h1 className="text-2xl font-bold text-ink-900 mb-5">Новый проект</h1>
+      <h1 className="text-3xl mb-5">Новый проект</h1>
       <ProjectForm submitLabel="Создать проект" onSubmit={handleSubmit} />
     </div>
   );

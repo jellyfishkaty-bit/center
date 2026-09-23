@@ -141,12 +141,12 @@ export default function TimerTab({ project }: { project: Project }) {
       </section>
 
       <section className="card p-4">
-        <p className="font-semibold text-ink-900 mb-1">Всего потрачено времени</p>
+        <p className="section-title text-lg mb-1">Всего потрачено времени</p>
         <p className="text-2xl font-bold text-sage-600">{formatDuration(totalSeconds)}</p>
       </section>
 
       <section>
-        <p className="font-semibold text-ink-900 mb-2">История сессий</p>
+        <p className="section-title text-lg mb-2">История сессий</p>
         {sessions?.length === 0 && (
           <p className="text-sm text-ink-500">Пока нет завершённых сессий.</p>
         )}

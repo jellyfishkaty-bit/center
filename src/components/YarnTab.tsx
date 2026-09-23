@@ -83,7 +83,7 @@ export default function YarnTab({ project }: { project: Project }) {
           <div key={yarn.id} className="card p-4">
             <div className="flex items-start justify-between gap-2">
               <button className="text-left flex-1" onClick={() => openEdit(yarn)}>
-                <p className="font-semibold text-ink-900">{yarn.name}</p>
+                <p className="section-title text-lg">{yarn.name}</p>
                 <p className="text-xs text-ink-500">
                   {yarn.manufacturer && `${yarn.manufacturer} · `}
                   {yarn.color}
@@ -137,7 +137,7 @@ export default function YarnTab({ project }: { project: Project }) {
             )}
 
             {low && (
-              <div className="flex items-center gap-1.5 mt-2 bg-terracotta-100 text-terracotta-700 text-xs font-medium px-2.5 py-1.5 rounded-lg">
+              <div className="flex items-center gap-1.5 mt-2 bg-burgundy-100 text-burgundy-600 text-xs font-medium px-2.5 py-1.5 rounded-lg">
                 <TriangleAlert size={14} /> Осталось меньше 1 мотка
               </div>
             )}
@@ -156,7 +156,7 @@ export default function YarnTab({ project }: { project: Project }) {
         <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50">
           <div className="card p-5 w-full sm:max-w-sm max-h-[85vh] overflow-y-auto rounded-b-none sm:rounded-b-xl2">
             <div className="flex items-center justify-between mb-3">
-              <p className="font-semibold text-ink-900">Пряжа</p>
+              <p className="section-title text-lg">Пряжа</p>
               <button onClick={() => setShowForm(false)}>
                 <X size={20} className="text-ink-500" />
               </button>

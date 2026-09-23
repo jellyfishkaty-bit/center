@@ -115,7 +115,7 @@ export default function ProjectDetailPage() {
         </div>
       </div>
 
-      <h1 className="text-2xl font-bold text-ink-900 mb-1">{project.name}</h1>
+      <h1 className="text-3xl mb-1">{project.name}</h1>
       <p className="text-sm text-ink-500 mb-4">
         {project.itemType} · {project.technique === "needles" ? "Спицы" : "Крючок"}
         {project.toolSize ? ` №${project.toolSize.replace(/^№/, "")}` : ""}

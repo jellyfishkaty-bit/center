@@ -119,7 +119,7 @@ export default function CounterTab({ project }: { project: Project }) {
 
       <section className="card p-5">
         <div className="flex items-center justify-between mb-3">
-          <p className="font-semibold text-ink-900">Петли в ряду</p>
+          <p className="section-title text-lg">Петли в ряду</p>
           <label className="flex items-center gap-2 text-xs text-ink-500">
             <input
               type="checkbox"
@@ -205,7 +205,7 @@ export default function CounterTab({ project }: { project: Project }) {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
           <div className="card p-5 w-full max-w-sm">
             <div className="flex items-center justify-between mb-3">
-              <p className="font-semibold text-ink-900">Установить ряд вручную</p>
+              <p className="section-title text-lg">Установить ряд вручную</p>
               <button onClick={() => setShowManualRow(false)}>
                 <X size={20} className="text-ink-500" />
               </button>
@@ -236,7 +236,7 @@ export default function CounterTab({ project }: { project: Project }) {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-6">
           <div className="card p-5 w-full max-w-sm">
             <div className="flex items-center justify-between mb-3">
-              <p className="font-semibold text-ink-900">Целевое количество петель</p>
+              <p className="section-title text-lg">Целевое количество петель</p>
               <button onClick={() => setShowTarget(false)}>
                 <X size={20} className="text-ink-500" />
               </button>
@@ -281,7 +281,7 @@ export default function CounterTab({ project }: { project: Project }) {
         <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50">
           <div className="card p-5 w-full sm:max-w-sm max-h-[75vh] overflow-y-auto rounded-b-none sm:rounded-b-xl2">
             <div className="flex items-center justify-between mb-3 sticky top-0 bg-white">
-              <p className="font-semibold text-ink-900">История изменений</p>
+              <p className="section-title text-lg">История изменений</p>
               <button onClick={() => setShowHistory(false)}>
                 <X size={20} className="text-ink-500" />
               </button>
