@@ -1,23 +1,39 @@
 {
-  "name": "knitting-loop-animation",
-  "version": "1.0.0",
+  "name": "knitting-tracker",
   "private": true,
-  "description": "A cozy, hand-drawn style looping animation of hand-knitting, built with Remotion.",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Офлайн-трекер вязания: счётчики рядов и петель, раппорты, пряжа, фотодневник, таймер и статистика.",
   "scripts": {
-    "start": "remotion studio",
-    "build": "remotion render KnittingLoop out/knitting-loop.mp4",
-    "still": "remotion still KnittingLoop out/knitting-loop.png",
-    "upgrade": "remotion upgrade"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@fontsource/caveat": "^5.3.0",
+    "@fontsource/nunito": "^5.3.0",
+    "@fontsource/yeseva-one": "^5.3.0",
+    "dexie": "^4.0.10",
+    "dexie-react-hooks": "^1.1.7",
+    "lucide-react": "^0.462.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "remotion": "^4.0.230",
-    "@remotion/cli": "^4.0.230"
+    "react-router-dom": "^6.28.0",
+    "recharts": "^2.13.3"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "typescript": "^5.6.3"
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "vite-plugin-pwa": "^0.21.1"
   }
 }

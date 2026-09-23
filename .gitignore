@@ -1,3 +1,10 @@
 node_modules
 out
+dist
+dist-ssr
+dev-dist
+*.local
+*.tsbuildinfo
 .DS_Store
+ios/
+
