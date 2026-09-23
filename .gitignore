@@ -6,6 +6,5 @@ dev-dist
 *.local
 *.tsbuildinfo
 .DS_Store
-android/
 ios/
 

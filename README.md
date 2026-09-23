@@ -76,60 +76,76 @@ service worker и установки PWA.
 ## Как собрать `.apk` (через Capacitor)
 
 Нужно, если требуется именно файл `.apk` (например, для установки без Google Play
-или для публикации в маркете).
+или для публикации в маркете). Нативный Android-проект (папка `android/`) уже
+сгенерирован и лежит в репозитории — его не нужно создавать заново.
 
-### Что установить заранее
+### Вариант A: автоматическая сборка через GitHub Actions (проще всего)
 
+В репозитории есть workflow `.github/workflows/build-apk.yml`, который сам
+собирает debug-APK на серверах GitHub при каждом пуше в эту ветку (или вручную).
+
+1. Откройте вкладку **Actions** репозитория на GitHub.
+2. Выберите workflow **Build Android APK**. Если пуш уже был — сборка либо уже
+   прошла, либо идёт. Чтобы запустить вручную: **Run workflow**.
+3. Когда сборка завершится (значок ✅), откройте её и в разделе **Artifacts**
+   скачайте `knitting-tracker-debug-apk` (это zip-архив с `app-debug.apk`
+   внутри).
+4. Перенесите `app-debug.apk` на телефон и установите — Android спросит
+   разрешение «Установить из неизвестного источника», это нормально для
+   debug-сборки без подписи в Google Play.
+
+Это debug-сборка (подписана отладочным ключом) — подходит для личной установки,
+но не для публикации в Google Play (см. пункт про релизную сборку ниже).
+
+### Вариант B: собрать локально через Android Studio
+
+Нужно, если хотите релизный (подписанный) APK/AAB или локально отлаживать.
+
+**Что установить заранее:**
 - **Node.js** (уже используется для сборки веб-версии).
-- **Java JDK 17** (`sudo apt install openjdk-17-jdk` или аналог для вашей ОС).
+- **Java JDK 17+** (`sudo apt install openjdk-17-jdk` или аналог для вашей ОС).
 - **Android Studio** (включает Android SDK, эмулятор, инструменты сборки) —
   https://developer.android.com/studio.
-  При первом запуске Android Studio установите:
-  - Android SDK Platform (последняя стабильная версия),
-  - Android SDK Build-Tools,
-  - Android SDK Command-line Tools.
 
-### Шаги
+**Шаги:**
 
-1. Установите Capacitor и добавьте платформу Android:
+1. Установите зависимости и соберите веб-часть:
    ```bash
-   npm install @capacitor/core @capacitor/android
-   npm install -D @capacitor/cli
-   npx cap init "Вязальный дневник" "com.example.knitting" --web-dir=dist
-   ```
-
-2. Соберите веб-версию и добавьте Android-проект:
-   ```bash
+   npm install
    npm run build
-   npx cap add android
    npx cap sync android
    ```
 
-3. Откройте проект в Android Studio:
+2. Откройте нативный проект в Android Studio:
    ```bash
    npx cap open android
    ```
 
-4. В Android Studio: **Build → Build Bundle(s) / APK(s) → Build APK(s)**.
+3. В Android Studio: **Build → Build Bundle(s) / APK(s) → Build APK(s)**.
    Готовый файл появится в
    `android/app/build/outputs/apk/debug/app-debug.apk`.
 
-5. Чтобы обновить APK после изменений в коде:
+   Либо из терминала (если уже установлен Android SDK):
    ```bash
-   npm run build
-   npx cap sync android
+   cd android && ./gradlew assembleDebug
    ```
-   и снова собрать в Android Studio.
 
-6. Для публикации в Google Play или установки на несколько устройств нужен
-   **подписанный релизный APK/AAB** — Android Studio: **Build → Generate Signed
-   Bundle / APK**, с созданием собственного keystore (сохраните файл ключа и
-   пароли в надёжном месте — без них нельзя будет выпускать обновления).
+4. Чтобы обновить APK после изменений в коде: `npm run build`,
+   `npx cap sync android`, затем повторить сборку.
 
-Проще и без установки Android Studio для APK не обойтись — но для личного
-использования вариант «Добавить на главный экран» (см. выше) даёт тот же
-результат (иконка на экране, офлайн-работа, полноэкранный режим) без всей
-этой возни.
+5. Для публикации в Google Play нужен **подписанный релизный APK/AAB** —
+   Android Studio: **Build → Generate Signed Bundle / APK**, с созданием
+   собственного keystore (сохраните файл ключа и пароли в надёжном месте —
+   без них нельзя будет выпускать обновления).
+
+Для личного использования вариант «Добавить на главный экран» (см. выше) даёт
+тот же результат (иконка на экране, офлайн-работа, полноэкранный режим) без
+всей возни со сборкой APK.
+
+> **Важно:** `appId` приложения сейчас — `com.example.knittingtracker`
+> (задан в `capacitor.config.ts`). Это подходит для личной установки, но перед
+> публикацией в Google Play его стоит сменить на уникальный (например,
+> `com.<ваш_ник>.knittingtracker`).
 
 ## Структура проекта
 
