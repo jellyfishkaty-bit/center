@@ -2,7 +2,13 @@ import { useMemo, useState } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { db } from "../db/db";
-import ActivityHeatmap from "../components/ActivityHeatmap";
+import StatTile from "../components/stats/StatTile";
+import SpeedSection from "../components/stats/SpeedSection";
+import ActivitySection from "../components/stats/ActivitySection";
+import YarnSection from "../components/stats/YarnSection";
+import ProjectsSection from "../components/stats/ProjectsSection";
+import AchievementsSection from "../components/stats/AchievementsSection";
+import SectionDivider from "../components/decor/SectionDivider";
 
 function formatHours(seconds: number): string {
   const hours = seconds / 3600;
@@ -18,23 +24,13 @@ export default function StatisticsPage() {
   const projects = useLiveQuery(() => db.projects.toArray(), []);
   const allHistory = useLiveQuery(() => db.rowHistory.toArray(), []);
   const allSessions = useLiveQuery(() => db.sessions.toArray(), []);
+  const allYarns = useLiveQuery(() => db.yarns.toArray(), []);
 
   const [selectedProjectId, setSelectedProjectId] = useState<number | "all">("all");
 
   const completedCount = projects?.filter((p) => p.status === "completed").length ?? 0;
   const totalRows = projects?.reduce((sum, p) => sum + p.currentRow, 0) ?? 0;
   const totalSeconds = allSessions?.reduce((sum, s) => sum + s.durationSeconds, 0) ?? 0;
-
-  const heatmapCounts = useMemo(() => {
-    const map = new Map<string, number>();
-    if (!allHistory) return map;
-    for (const entry of allHistory) {
-      if (entry.action !== "increment") continue;
-      const key = dayKey(entry.timestamp);
-      map.set(key, (map.get(key) ?? 0) + 1);
-    }
-    return map;
-  }, [allHistory]);
 
   const chartData = useMemo(() => {
     if (!allHistory) return [];
@@ -65,23 +61,16 @@ export default function StatisticsPage() {
     return days;
   }, [allHistory, selectedProjectId]);
 
+  const loading = !projects || !allHistory || !allSessions || !allYarns;
+
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 pb-4">
       <h1 className="text-3xl">Статистика</h1>
 
       <div className="grid grid-cols-3 gap-2">
-        <div className="card p-3 text-center">
-          <p className="text-2xl font-bold text-terracotta-600">{completedCount}</p>
-          <p className="text-[11px] text-ink-500 mt-0.5">завершено проектов</p>
-        </div>
-        <div className="card p-3 text-center">
-          <p className="text-2xl font-bold text-terracotta-600">{totalRows}</p>
-          <p className="text-[11px] text-ink-500 mt-0.5">рядов всего</p>
-        </div>
-        <div className="card p-3 text-center">
-          <p className="text-2xl font-bold text-terracotta-600">{formatHours(totalSeconds)}</p>
-          <p className="text-[11px] text-ink-500 mt-0.5">времени вязания</p>
-        </div>
+        <StatTile value={completedCount} label="завершено проектов" />
+        <StatTile value={totalRows} label="рядов всего" accent="sage" />
+        <StatTile value={formatHours(totalSeconds)} label="времени вязания" accent="mustard" />
       </div>
 
       <section className="card p-4">
@@ -135,10 +124,32 @@ export default function StatisticsPage() {
         </div>
       </section>
 
-      <section className="card p-4">
-        <p className="section-title text-lg mb-3">Календарь активности</p>
-        <ActivityHeatmap counts={heatmapCounts} />
-      </section>
+      {loading ? (
+        <p className="text-center text-ink-500 mt-6">Загрузка...</p>
+      ) : (
+        <>
+          <SectionDivider label="скорость" />
+          <SpeedSection sessions={allSessions} projects={projects} />
+
+          <SectionDivider label="активность" />
+          <ActivitySection rowHistory={allHistory} sessions={allSessions} />
+
+          <SectionDivider label="пряжа" />
+          <YarnSection yarns={allYarns} projects={projects} />
+
+          <SectionDivider label="проекты" />
+          <ProjectsSection projects={projects} sessions={allSessions} rowHistory={allHistory} />
+
+          <SectionDivider label="достижения" />
+          <AchievementsSection
+            projects={projects}
+            sessions={allSessions}
+            rowHistory={allHistory}
+            totalRows={totalRows}
+            totalSeconds={totalSeconds}
+          />
+        </>
+      )}
     </div>
   );
 }

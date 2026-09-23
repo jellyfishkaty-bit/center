@@ -17,6 +17,7 @@ export default function NewProjectPage() {
       createdAt: now,
       updatedAt: now,
       archivedAt: null,
+      completedAt: values.status === "completed" ? now : null,
     });
     navigate(`/projects/${id}`, { replace: true });
   }

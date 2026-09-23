@@ -79,6 +79,7 @@ export async function duplicateProject(project: Project): Promise<number> {
     createdAt: now,
     updatedAt: now,
     archivedAt: null,
+    completedAt: null,
   });
 
   const repeats = await db.repeats.where("projectId").equals(project.id!).toArray();

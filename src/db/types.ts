@@ -17,6 +17,7 @@ export interface Project {
   createdAt: number;
   updatedAt: number;
   archivedAt?: number | null;
+  completedAt?: number | null;
 }
 
 export type RowAction = "increment" | "decrement" | "set" | "reset";

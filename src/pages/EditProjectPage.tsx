@@ -11,7 +11,10 @@ export default function EditProjectPage() {
   const project = useLiveQuery(() => db.projects.get(projectId), [projectId]);
 
   async function handleSubmit(values: ProjectFormValues) {
-    await db.projects.update(projectId, { ...values, updatedAt: Date.now() });
+    const wasCompleted = project?.status === "completed";
+    const isCompleted = values.status === "completed";
+    const completedAt = isCompleted ? (wasCompleted ? project?.completedAt ?? Date.now() : Date.now()) : null;
+    await db.projects.update(projectId, { ...values, completedAt, updatedAt: Date.now() });
     navigate(`/projects/${projectId}`, { replace: true });
   }
 
