@@ -73,7 +73,7 @@ function CompareView({
   const urlA = useObjectUrl(a.blob);
   const urlB = useObjectUrl(b.blob);
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex flex-col">
+    <div className="fixed inset-0 bg-black/80 z-50 flex flex-col pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]">
       <div className="flex justify-end p-3">
         <button onClick={onClose} className="text-white tap-target">
           <X size={26} />

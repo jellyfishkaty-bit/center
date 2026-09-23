@@ -14,13 +14,13 @@ export default function Layout({ children }: { children: ReactNode }) {
   const hideNav = /\/projects\/[^/]+\/edit$/.test(location.pathname);
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream-100">
+    <div className="min-h-screen flex flex-col bg-cream-100 pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]">
       <main className="flex-1 w-full max-w-2xl mx-auto px-4 pt-4 pb-28">
         {children}
       </main>
       {!hideNav && (
         <nav
-          className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-cream-300 pb-[env(safe-area-inset-bottom)]"
+          className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-cream-300 pb-[env(safe-area-inset-bottom,0px)] pl-[env(safe-area-inset-left,0px)] pr-[env(safe-area-inset-right,0px)]"
           style={{ zIndex: 40 }}
         >
           <div className="max-w-2xl mx-auto grid grid-cols-4">
