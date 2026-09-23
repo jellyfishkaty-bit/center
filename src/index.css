@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-cream-100 text-ink-700 antialiased;
+    overscroll-behavior-y: none;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply bg-white;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-terracotta-500 text-white font-semibold rounded-xl2 shadow-soft active:shadow-press active:scale-[0.98] transition-all;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-ink-700 border border-cream-300 font-semibold rounded-xl2 active:scale-[0.98] transition-all;
+  }
+
+  .card {
+    @apply bg-white rounded-xl2 shadow-soft;
+  }
+
+  .tap-target {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-cream-300 px-3 py-2.5 text-ink-700 placeholder:text-ink-500/40 focus:outline-none focus:ring-2 focus:ring-terracotta-300;
+  }
+
+  .label {
+    @apply text-sm font-medium text-ink-500 mb-1 block;
+  }
+}

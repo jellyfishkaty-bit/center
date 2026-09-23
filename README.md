@@ -1,32 +1,155 @@
-# Knitting Loop
+# Вязальный дневник
 
-A cozy, hand-drawn style looping animation of hand-knitting, built with [Remotion](https://www.remotion.dev/) (React + TypeScript).
+Личное офлайн-приложение (PWA) для учёта вязания: счётчики рядов и петель,
+раппорты, библиотека узоров, расход пряжи, фотодневник прогресса, таймер сессий,
+заметки, напоминания и статистика. Все данные хранятся только на устройстве,
+в IndexedDB — сервер не нужен.
 
-1080x1080, 5 second seamless loop at 30fps.
+**Стек:** React + TypeScript + Vite, Tailwind CSS, Dexie (IndexedDB),
+vite-plugin-pwa, recharts, lucide-react.
 
-## Preview
+## Разработка
 
 ```bash
 npm install
-npm start
+npm run dev
 ```
 
-This opens Remotion Studio where you can scrub the `KnittingLoop` composition.
+Откроется адрес вида `http://localhost:5173`.
 
-## Render
+## Production-сборка
 
 ```bash
 npm run build
 ```
 
-Outputs `out/knitting-loop.mp4`.
+Результат — статические файлы в папке `dist/`, включая:
 
-## Structure
+- `manifest.webmanifest` — манифест PWA (иконки, тема, режим `standalone`);
+- `sw.js` и `workbox-*.js` — service worker для офлайн-работы (кэширует весь
+  интерфейс приложения; сами ваши данные хранятся в IndexedDB на устройстве).
 
-- `src/KnittingLoop.tsx` - the reusable `<KnittingLoop />` component, composing the scene
-- `src/components/Background.tsx` - warm gradient backdrop with a breathing glow
-- `src/components/AmbientParticles.tsx` - drifting dust motes for atmosphere
-- `src/components/KnittedFabric.tsx` - the growing stockinette swatch
-- `src/components/NeedlesAndYarn.tsx` - the two crossing needles, yarn strand and stitch formation
-- `src/utils/animation.ts` - shared easing/looping-wave helpers
-- `src/constants.ts` - timing, sizing and palette constants
+Проверить сборку локально:
+
+```bash
+npm run preview
+```
+
+## Как установить приложение на Android (без APK)
+
+Это самый простой и рекомендуемый способ.
+
+### 1. Задеплойте `dist/` на бесплатный хостинг
+
+**Vercel** (проще всего):
+```bash
+npm install -g vercel
+vercel deploy --prod
+```
+При первом запуске просто следуйте подсказкам (Framework Preset — Vite).
+
+**Netlify:**
+```bash
+npm install -g netlify-cli
+npm run build
+netlify deploy --prod --dir=dist
+```
+
+**GitHub Pages:**
+1. В `vite.config.ts` добавьте `base: "/<имя-репозитория>/"`.
+2. `npm run build`
+3. Опубликуйте содержимое `dist/` в ветку `gh-pages` (например, через
+   пакет `gh-pages` или GitHub Actions).
+
+Любой из вариантов даёт HTTPS-адрес — это обязательное условие для работы
+service worker и установки PWA.
+
+### 2. Установите на телефон
+
+1. Откройте полученную ссылку в **Chrome на Android**.
+2. Нажмите на меню (три точки) → **«Добавить на главный экран»** /
+   **«Установить приложение»**.
+3. На главном экране появится иконка. При открытии приложение работает в
+   полноэкранном режиме, без адресной строки, как обычное нативное приложение,
+   и полностью офлайн после первого запуска.
+
+## Как собрать `.apk` (через Capacitor)
+
+Нужно, если требуется именно файл `.apk` (например, для установки без Google Play
+или для публикации в маркете).
+
+### Что установить заранее
+
+- **Node.js** (уже используется для сборки веб-версии).
+- **Java JDK 17** (`sudo apt install openjdk-17-jdk` или аналог для вашей ОС).
+- **Android Studio** (включает Android SDK, эмулятор, инструменты сборки) —
+  https://developer.android.com/studio.
+  При первом запуске Android Studio установите:
+  - Android SDK Platform (последняя стабильная версия),
+  - Android SDK Build-Tools,
+  - Android SDK Command-line Tools.
+
+### Шаги
+
+1. Установите Capacitor и добавьте платформу Android:
+   ```bash
+   npm install @capacitor/core @capacitor/android
+   npm install -D @capacitor/cli
+   npx cap init "Вязальный дневник" "com.example.knitting" --web-dir=dist
+   ```
+
+2. Соберите веб-версию и добавьте Android-проект:
+   ```bash
+   npm run build
+   npx cap add android
+   npx cap sync android
+   ```
+
+3. Откройте проект в Android Studio:
+   ```bash
+   npx cap open android
+   ```
+
+4. В Android Studio: **Build → Build Bundle(s) / APK(s) → Build APK(s)**.
+   Готовый файл появится в
+   `android/app/build/outputs/apk/debug/app-debug.apk`.
+
+5. Чтобы обновить APK после изменений в коде:
+   ```bash
+   npm run build
+   npx cap sync android
+   ```
+   и снова собрать в Android Studio.
+
+6. Для публикации в Google Play или установки на несколько устройств нужен
+   **подписанный релизный APK/AAB** — Android Studio: **Build → Generate Signed
+   Bundle / APK**, с созданием собственного keystore (сохраните файл ключа и
+   пароли в надёжном месте — без них нельзя будет выпускать обновления).
+
+Проще и без установки Android Studio для APK не обойтись — но для личного
+использования вариант «Добавить на главный экран» (см. выше) даёт тот же
+результат (иконка на экране, офлайн-работа, полноэкранный режим) без всей
+этой возни.
+
+## Структура проекта
+
+- `src/db/` — схема Dexie (IndexedDB), типы данных, операции над счётчиками,
+  экспорт/импорт бэкапа.
+- `src/pages/` — экраны верхнего уровня (список проектов, экран проекта,
+  библиотека узоров, статистика, настройки).
+- `src/components/` — переиспользуемые компоненты и вкладки экрана проекта
+  (счётчик, раппорты, узоры, пряжа, фото, заметки, таймер).
+- `public/icons/` — иконки PWA (сгенерированы программно).
+
+## Резервное копирование
+
+В разделе **Настройки** можно скачать полный бэкап всех данных (включая фото)
+в виде JSON-файла и восстановить его на другом устройстве или после
+переустановки браузера.
+
+## Архив: анимация Remotion
+
+В папке `remotion-animation/` лежит отдельный, не связанный с трекером проект —
+исходная зацикленная анимация вязания на Remotion, которая была в репозитории
+до начала работы над трекером. Она сохранена как есть и не используется
+основным приложением.
